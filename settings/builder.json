@@ -1,7 +1,4 @@
 {
-  "title": "easy_talk_board",
-  "packageName": "org.cocos2d.demo",
-  "startScene": "3da09a97-7d08-4fc7-b3db-a979fdf09fcf",
   "excludeScenes": [],
   "orientation": {
     "landscapeLeft": true,
@@ -9,6 +6,9 @@
     "portrait": false,
     "upsideDown": false
   },
+  "packageName": "org.cocos2d.helloworld",
+  "startScene": "e006e1cc-38d5-413c-a0b3-d0085367f2e7",
+  "title": "SlotMachine",
   "webOrientation": "auto",
   "inlineSpriteFrames": true,
   "inlineSpriteFrames_native": true,
@@ -18,7 +18,7 @@
   "md5Cache": true,
   "nativeMd5Cache": true,
   "encryptJs": true,
-  "xxteaKey": "8d3ec393-ee03-48",
+  "xxteaKey": "832025b8-6f47-44",
   "zipCompressJs": true,
   "fb-instant-games": {},
   "android": {
