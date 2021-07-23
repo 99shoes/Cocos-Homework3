@@ -7,9 +7,10 @@
     "upsideDown": false
   },
   "packageName": "org.cocos2d.helloworld",
-  "startScene": "e006e1cc-38d5-413c-a0b3-d0085367f2e7",
-  "title": "SlotMachine",
+  "startScene": "d40fe26b-3fc3-43df-8bff-5fea310d2d4b",
+  "title": "hello_world",
   "webOrientation": "auto",
+  "includeSDKBox": false,
   "inlineSpriteFrames": true,
   "inlineSpriteFrames_native": true,
   "mainCompressionType": "default",
@@ -18,7 +19,7 @@
   "md5Cache": true,
   "nativeMd5Cache": true,
   "encryptJs": true,
-  "xxteaKey": "832025b8-6f47-44",
+  "xxteaKey": "8b5610e3-87eb-49",
   "zipCompressJs": true,
   "fb-instant-games": {},
   "android": {

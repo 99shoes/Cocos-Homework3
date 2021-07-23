@@ -1,94 +1,72 @@
+import Hero from "./hero";
+import Obcontrol from "./ob_control";
+// Learn TypeScript:
+//  - https://docs.cocos.com/creator/manual/en/scripting/typescript.html
+// Learn Attribute:
+//  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
+// Learn life-cycle callbacks:
+//  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class NewClass extends cc.Component {
-    @property(cc.SpriteFrame)
-    cherryAtls: cc.SpriteFrame = null;
+  @property(cc.Node)
+  mapNode: cc.Node = null;
+  @property(cc.AudioClip)
+  audio: cc.AudioClip = null;
+  @property(cc.AudioClip)
+  stopaudio: cc.AudioClip = null;
+  @property(cc.Button)
+  st: cc.Button = null; //button click start
+  // LIFE-CYCLE CALLBACKS:
+  @property(Hero)
+  hero: Hero = null;
 
-    @property(cc.SpriteFrame)
-    beansAtls: cc.SpriteFrame = null;
+  @property(cc.Label)
+  showscore: cc.Label = null;
+  private score: number = 0;
+  private speed: number = 50;
+  private tmpX: number = 125;
+  onLoad() {
+    this.hero.node.on("dead", () => {
+      this.stoping();
+    });
+    this.hero.node.on("getscore", () => {
+      this.getscore();
+    });
+    cc.director.getPhysicsManager().enabled = true;
+    //cc.director.getPhysicsManager().debugDrawFlags = 1;
+    // var clickEventHandler = new cc.Component.EventHandler();
+    // clickEventHandler.target = this.node; // 这个 node 节点
+    cc.audioEngine.playMusic(this.audio, true);
+  }
+  stoping() {
+    cc.audioEngine.playMusic(this.stopaudio, true);
+    cc.director.pause(); //取消所有場景的update
+    // this.st.node.once('click', cc.director.loadScene.bind(cc.director, 'game'))
+    this.st.node.once("click", () => {
+      cc.director.resume();
+      cc.director.loadScene("game");
+    }); //error function
+  }
+  start() {}
 
-    @property(cc.SpriteFrame)
-    orangeAtls: cc.SpriteFrame = null;
-
-    @property(cc.Button)
-    button1: cc.Button = null;
-
-    @property(cc.Prefab)
-    fruitPrefab: cc.Prefab = null;
-
-    @property(cc.Node)
-    ctrlAreaNode: cc.Node = null;
-
-    @property(cc.Label)
-    hintlabel: cc.Label = null;
-
-    Scores = 0;
-
-    onLoad() {
-        this.initMap();
-        var count = this.ctrlAreaNode.childrenCount;
-        console.log(count);
-        this.button1.node.on("click", () => this.nextFruit());
-        this.node.getComponent(cc.Sprite);
-    }
-
-    initMap() {
-        let fruitCnt = 15;
-        for (let i = 0; i < fruitCnt; i++) {
-            let fruitNode = cc.instantiate(this.fruitPrefab);
-
-            fruitNode.getComponent("fruit").randFruit(15); //亂術跑圖案
-            this.ctrlAreaNode.addChild(fruitNode);
-
-            console.log();
-        }
-    }
-
-    nextFruit() {
-        //child 接收node
-        const tp: boolean[] = [...new Array(15)].fill(false); // 要修飾詞const /或let
-        this.Scores -= 10;
-        const parent = this.ctrlAreaNode;
-        let frames: Array<cc.SpriteFrame> = [this.beansAtls, this.cherryAtls, this.orangeAtls];
-        parent.children.forEach((node) => (node.scale = 1));
-        for (let k = 0; k < 15; ++k) {
-            let i = 0;
-            this.schedule(
-                function () {
-                    this.button1.enabled = false;
-                    let last: string = parent.children[k].getComponent(cc.Sprite).spriteFrame.name;
-                    i++;
-                    while (last == parent.children[k].getComponent(cc.Sprite).spriteFrame.name) {
-                        parent.children[k].getComponent(cc.Sprite).spriteFrame = frames[Math.floor(Math.random() * 3)];
-                    }
-                    console.log(i);
-                    if (i == 31 && k === 14) {
-                        parent.children.forEach((node, idx) => {
-                            if (node.getComponent(cc.Sprite).spriteFrame.name === this.cherryAtls.name) {
-                                this.Scores += 2;
-                                tp[idx] = true;
-                                cc.tween(node)
-                                    .to(1, { scale: 2 }) //設定動畫
-                                    .call(() => {
-                                        tp[idx] = false;
-                                        if (tp.every((flag) => !flag)) {
-                                            // flag可以任意取  error function =!flag
-                                            this.button1.enabled = true;
-                                        }
-                                    })
-                                    .start(); //動畫開始，按照順序跑to 接下來是 call
-                            }
-                        });
-                    }
-                },
-                0.1,
-                30
-            );
-        }
-    }
-
-    update() {
-        this.hintlabel.string = "Scores: " + this.Scores;
-    }
+  getscore() {
+    this.score += 1;
+    this.showscore.string = "分數:" + this.score;
+  }
+  // update(dt: number) {
+  //   var s = this.speed * dt;
+  //   this.tmpX -= s; //障礙物移動
+  //   console.log("s", this.tmpX);
+  //   // console.log(this.hero.node.x);
+  //   if (this.tmpX <= 0) {
+  //     //  this.node.emit("vanish")
+  //     this.tmpX = 100;
+  //     this.score += 1;
+  //     this.showscore.string = "分數:" + this.score;
+  //   }
+  //   // onLoad () {}
+  // }
 }

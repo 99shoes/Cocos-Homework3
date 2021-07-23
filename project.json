@@ -1,8 +1,8 @@
 {
-  "engine": "cocos2d-html5",
+  "engine": "cocos-creator-js",
   "packages": "packages",
+  "name": "HW3",
+  "id": "185280f8-cdc1-4996-a2c5-13963948d117",
   "version": "2.4.0",
-  "name": "Rewrite",
-  "id": "a2158a7a-ef59-4f06-a11e-f79135b028df",
   "isNew": false
 }
